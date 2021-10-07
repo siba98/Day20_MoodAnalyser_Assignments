@@ -19,21 +19,11 @@ namespace Day20_MoodAnalyser_Test_Assignment.UC1
         //method for checking mood
         public string AnalyseMood()
         {
-            try
-            {
-                if (this.message.Equals(string.Empty))
-                {
-                    throw new MoodAnalyser_CustomException(MoodAnalyser_CustomException.ExceptionType.EMPTY_MESSAGE, "Mood should not be empty");
-                }
+            
                 if (this.message.Contains("sad"))
                     return "SAD";
                 else
                     return "HAPPY";
-            }
-            catch (NullReferenceException)
-            {
-                throw new MoodAnalyser_CustomException(MoodAnalyser_CustomException.ExceptionType.NULL_MESSAGE, "Mood should not be null");
-            }
         }
     }
 }
