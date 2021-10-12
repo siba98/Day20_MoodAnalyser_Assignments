@@ -1,13 +1,13 @@
-using Day20_MoodAnalyser_Test_Assignment.Refactor_UC1;
-using Day20_MoodAnalyser_Test_Assignment.UC1;
-using Day20_MoodAnalyser_Test_Assignment.UC2;
+using Day20_MoodAnalyser_Test_Assignment;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace MoodAnalyserTest
 {
     [TestClass]
     public class UnitTest1
     {
+        //UC1
         [TestMethod] //TC1.1
         public void Given_SadMood_Expecting_Sad_Results()
         {
@@ -23,7 +23,7 @@ namespace MoodAnalyserTest
         }
 
         [TestMethod] //TC1.2
-        public void Given_Any_Mood_Expecting_Happy_Results()
+        public void Giving_Any_Mood_Expecting_Happy_Results()
         {
             //Arrangement 
             MoodAnalyser mood = new MoodAnalyser("I am in Any Mood");
@@ -36,46 +36,159 @@ namespace MoodAnalyserTest
             Assert.AreEqual(expected, actualMsg);
         }
 
+
+        //Refactor UC1
         [TestMethod]  //Refactor-TC 1.1
-        public void Given_SAD_Mood_Expecting_Sad_Results()
+        public void Giving_SAD_Mood_Expecting_Sad_Result()
         {
             //Arrangement 
-            MoodAnalyser_RefactorUC1 mood = new MoodAnalyser_RefactorUC1();
-            string message = "I am in Sad Mood";
+            MoodAnalyser mood = new MoodAnalyser("I am in Sad Mood");
+            string expected = "SAD";
 
             //Act
             string result = mood.AnalyseMood();
 
             //Assert
-            Assert.AreEqual(message, result);
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]  //Refactor-TC 1.2
-        public void Given_ANY_Mood_Expecting_Happy_Results()
+        public void Giving_HappyMood_Expecting_Sad_Result()
         {
             //Arrangement 
-            MoodAnalyser_RefactorUC1 mood = new MoodAnalyser_RefactorUC1();
-            string message = "I am in Happy Mood";
+            MoodAnalyser mood = new MoodAnalyser("I am in Happy Mood");
+            string message = "HAPPY";
 
             //Act
-            string result = mood.AnalyseMood();
+            string actualmsg = mood.AnalyseMood();
 
             //Assert
-            Assert.AreEqual(message, result);
+            Assert.AreEqual(message, actualmsg);
         }
 
-        [TestMethod] //TC 2.1
-        public void Handling_Exception_If_Msg_Is_Null_Or_Empty()
+        // UC2
+        [TestMethod] 
+        //[ExpectedException(typeof(Exception))] //not needed if we use "retrun" insteadof "throw" 
+        public void Giving_NullMood_Expecting_Exception_Results()
         {
             //Arrangement
-            MoodAnalyser_HandleException mood = new MoodAnalyser_HandleException(null);
-            string expected = "Happy";
+            MoodAnalyser mood = new MoodAnalyser(null);
+            string expected = "Object reference not set to an instance of an object.";
+
+            try
+            {
+                //Act
+                string actualMsg = mood.AnalyseMood();
+            }
+
+            catch(NullReferenceException ex)
+            {
+                //Assert
+                Assert.AreEqual(expected, ex.Message);
+            }
+            
+        }
+
+        //TC 2.1
+        [TestMethod] 
+        //[ExpectedException(typeof(MoodAnalyserCustomException))]
+        public void Giving_MoodNull_Should_Return_Happy()
+        {
+            //Arrange
+            MoodAnalyser obj = new MoodAnalyser("null");
+            string expected = "HAPPY";
 
             //Act
-            string actualMsg = mood.AnalyseMood();
+            string actualMsg = obj.AnalyseMood();
 
             //Assert
             Assert.AreEqual(expected, actualMsg);
+
+        }
+
+        //TC 3.1
+        [TestMethod]
+        //[ExpectedException(typeof(MoodAnalyserCustomException))]
+        public void Giving_NullMood_Expecting_CustomException_Results()
+        {
+            //Arrange
+            MoodAnalyser obj = new MoodAnalyser(null);
+            string expected = "Mood should not be NULL";
+
+            try
+            {
+                //Act
+                string actualMsg = obj.AnalyseMood();
+            }
+
+            catch(MoodAnalyserCustomException ex)
+            {
+                //Assert
+                Assert.AreEqual(expected, ex.Message);
+            }
+
+            
+        }
+
+        //TC 3.2
+        [TestMethod]
+        //[ExpectedException(typeof(MoodAnalyserCustomException))]
+        public void Giving_EmptyMood_Expecting_CustomException_Results()
+        {
+            //Arrange
+            MoodAnalyser obj = new MoodAnalyser("");
+            string expected = "Mood should not be EMPTY";
+
+            try
+            {
+                //Act
+                string actualMsg = obj.AnalyseMood();
+            }
+
+            catch (MoodAnalyserCustomException ex)
+            {
+                //Assert
+                Assert.AreEqual(expected, ex.Message);
+            }
+            
+        }
+
+        //TC 4.1
+        [TestMethod]
+        public void GivenMoodAnalyseClassName_ShouldReturnMoodAnalyseObject() //have to check by passing the full address in place of null
+        {
+            //Arrange
+            string message = null;
+            MoodAnalyser expected = new MoodAnalyser(message);
+
+            //Act
+            object obj = MoodAnalyserFactory.CreateMoodAnalyser("Day20_MoodAnalyser_Test_Assignment.MoodAnalyser", "MoodAnalyser");
+            //expected.Equals(obj);
+
+            //Assert
+            Assert.AreNotEqual(expected, obj);
+        }
+
+        
+        //TC 5.1
+        [TestMethod]
+        public void GivenMoodAnalyseClassName_ShouldReturnMoodAnalyseObject_UsingParameterizedConstructor()
+        {
+            //Arrange
+            object expected = new MoodAnalyser("HAPPY");
+
+            try
+            {
+                //Act
+                object obj = MoodAnalyserFactory.CreateMoodAnalyseUsingParameterizedConstructor("Day.MoodAnalyser", "MoodAnalyser", "SAD");
+            }
+            catch(Exception ex)
+            {
+                //Assert
+                //expected.Equals(obj);
+                Assert.AreEqual(expected, ex.Message);
+            }
+            
         }
     }
 }
