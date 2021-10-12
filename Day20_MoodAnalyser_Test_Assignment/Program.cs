@@ -6,7 +6,7 @@ namespace Day20_MoodAnalyser_Test_Assignment
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("****************WELCOME TO MOOD ANALYSER PROGRAMM WITH EXCEPTION HANDLING******************");
+            Console.WriteLine("****************WELCOME TO MOOD ANALYSER PROGRAMM WITH EXCEPTION HANDLING*******************");
         }
     }
 }
