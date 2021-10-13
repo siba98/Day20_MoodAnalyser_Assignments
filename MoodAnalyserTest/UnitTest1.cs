@@ -95,6 +95,7 @@ namespace MoodAnalyserTest
         public void Giving_MoodNull_Should_Return_Happy()
         {
             //Arrange
+            //string message = null;
             MoodAnalyser obj = new MoodAnalyser("null");
             string expected = "HAPPY";
 
@@ -177,18 +178,25 @@ namespace MoodAnalyserTest
             //Arrange
             object expected = new MoodAnalyser("HAPPY");
 
-            try
-            {
-                //Act
-                object obj = MoodAnalyserFactory.CreateMoodAnalyseUsingParameterizedConstructor("Day.MoodAnalyser", "MoodAnalyser", "SAD");
-            }
-            catch(Exception ex)
-            {
-                //Assert
-                //expected.Equals(obj);
-                Assert.AreEqual(expected, ex.Message);
-            }
-            
+            //Act
+            object obj = MoodAnalyserFactory.CreateMoodAnalyseUsingParameterizedConstructor("Day20_MoodAnalyser_Test_Assignment.MoodAnalyser", "MoodAnalyser", "HAPPY");
+
+            //Assert
+            expected.Equals(obj);
+        }
+
+        //TC 6.1
+        [TestMethod]
+        public void Given_HappyMood_Should_Return_Happy()
+        {
+            //Arrange
+            string expected = "HAPPY";
+
+            //Act
+            string mood = MoodAnalyserFactory.InvokeAnalyserMood("Happy", "AnalyseMood");
+
+            //Assert
+            Assert.AreEqual(expected, mood);
         }
     }
 }
