@@ -1,6 +1,7 @@
 using Day20_MoodAnalyser_Test_Assignment;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Reflection;
 
 namespace MoodAnalyserTest
 {
@@ -53,7 +54,7 @@ namespace MoodAnalyserTest
         }
 
         [TestMethod]  //Refactor-TC 1.2
-        public void Giving_HappyMood_Expecting_Sad_Result()
+        public void Giving_HappyMood_Expecting_Happy_Result()
         {
             //Arrangement 
             MoodAnalyser mood = new MoodAnalyser("I am in Happy Mood");
@@ -156,7 +157,7 @@ namespace MoodAnalyserTest
 
         //TC 4.1
         [TestMethod]
-        public void GivenMoodAnalyseClassName_ShouldReturnMoodAnalyseObject() //have to check by passing the full address in place of null
+        public void GivenMoodAnalyserClassName_ShouldReturnMoodAnalyseObject() //have to check by passing the full address in place of null
         {
             //Arrange
             string message = null;
@@ -197,6 +198,17 @@ namespace MoodAnalyserTest
 
             //Assert
             Assert.AreEqual(expected, mood);
+        }
+
+        //TC 7.1
+        [TestMethod]
+        public void Given_HappyMessage_With_Reflector_Should_Return_Happy()
+        {
+            //Act
+            string result = MoodAnalyserFactory.SetField("HAPPY", "message");
+
+            //Assert
+            Assert.AreEqual("HAPPY", result);
         }
     }
 }
