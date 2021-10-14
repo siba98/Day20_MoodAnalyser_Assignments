@@ -7,7 +7,7 @@ namespace Day20_MoodAnalyser_Test_Assignment
     public class MoodAnalyser
     {
         //variable
-        string message;
+        public string message;
 
         //Constructor with no parameter
         public MoodAnalyser()
